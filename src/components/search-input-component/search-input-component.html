@@ -1,0 +1,5 @@
+<form action="" class="search-form">
+    <input type="text" placeholder="Search products..." class="search-input" name="searchValue"
+        [(ngModel)]="searchValue" (ngModelChange)="search.emit($event)">
+    <button type="button" class="search-button" (click)="search.emit(searchValue)">Search</button>
+</form>

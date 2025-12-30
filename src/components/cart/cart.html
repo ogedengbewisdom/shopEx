@@ -1,0 +1,26 @@
+<article class="cart-item">
+    <div class="cart-item-content">
+        <div class="cart-image-container">
+            <img [src]="imageUrl" [alt]="name" class="cart-image">
+
+        </div>
+        <div class="cart-title-container">
+            <h3 class="cart-title">{{ name }}</h3>
+            <p class="cart-price">Price: $ {{ price }}</p>
+        </div>
+    </div>
+    <div class="cart-content">
+        <div class="cart-quantity-container">
+
+            <p class="cart-total">Subtotal: $ {{ price * quantity }}</p>
+            <div class="cart-quantity-buttons">
+                <app-button-component [buttonText]="'-'"
+                    (buttonClick)="removeFromCart.emit({id, name, price, imageUrl})" />
+                <p class="cart-quantity-value">{{ quantity }}</p>
+                <app-button-component [buttonText]="'+'"
+                    (buttonClick)="addToCart.emit({ id, name, price, imageUrl })" />
+            </div>
+        </div>
+
+    </div>
+</article>

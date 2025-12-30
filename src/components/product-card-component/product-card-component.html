@@ -1,0 +1,10 @@
+<article class="card" [class.in-cart]="isInCart" (click)="addToCart.emit()">
+    <div class="card-image-container">
+        <img [src]="imageUrl" [alt]="name" class="card-image">
+    </div>
+    <div class="card-content">
+        <h2 class="card-title">{{ name }}</h2>
+        <p class="card-description">{{ description }}</p>
+        <p class="card-price">$ {{ price }}</p>
+    </div>
+</article>
