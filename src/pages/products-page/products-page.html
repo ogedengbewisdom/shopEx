@@ -1,0 +1,8 @@
+<section class="card-container">
+    @for (product of products$ | async; track product.id) {
+    <app-product-card-component [name]="product.name" [description]="product.description" [price]="product.price"
+        [imageUrl]="product.imageUrl" (navigateToProduct)="navigateToProduct(product)" [isInCart]="isInCart(product)" />
+    }@empty {
+    <p>No product found</p>
+    }
+</section>

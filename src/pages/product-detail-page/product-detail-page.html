@@ -1,0 +1,30 @@
+@if (product$ | async; as product) {
+<div class="product-detail-container">
+
+    <div class="product-detail-image-container">
+        <img [src]="product.imageUrl" [alt]="product.name" class="product-image">
+    </div>
+    <div class="product-detail-content">
+        <h1 class="product-detail-title">{{ product.name }}</h1>
+        <p class="product-detail-category">Category: {{ category || product.category }}</p>
+        <p class="product-detail-description">{{ product.description }}</p>
+        <p class="product-detail-price">Price: ${{ product.price }}</p>
+        <p>{{ product.inStock ? 'In Stock' : 'Out of Stock' }}</p>
+        <p>Rating: {{ product.rating }}</p>
+        <div class="product-detail-button-container">
+            <app-button-component [buttonText]="'Add to Cart'" (buttonClick)="addToCart(product)" />
+            @if(isInCart(product)) {
+            <app-button-component [buttonText]="'Remove from Cart'" (buttonClick)="removeFromCart(product)" />
+            }
+
+        </div>
+
+    </div>
+
+
+</div>
+} @else {
+<div class="no_product_found">
+    <p>No product found</p>
+</div>
+}

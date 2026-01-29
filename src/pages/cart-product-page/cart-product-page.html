@@ -1,0 +1,31 @@
+<section class="cart-item-section">
+    <div class="cart-item-container">
+    @if(cartItems().length > 0) {
+    @for (cartItem of cartItems(); track cartItem.id) {
+    <div class="cart-border">
+        <app-cart-component [name]="cartItem.name" [price]="cartItem.price" [quantity]="cartItem.quantity"
+            [imageUrl]="cartItem.imageUrl"
+            (addToCart)="addToCart({ id: cartItem.id, name: cartItem.name, price: cartItem.price, imageUrl: cartItem.imageUrl })"
+            (removeFromCart)="removeFromCart({id: cartItem.id, name: cartItem.name, price: cartItem.price, imageUrl: cartItem.imageUrl})" />
+    </div>
+    }
+    <div class="cart-total-container">
+        <p class="cart-total-text">Total: $ {{ total() }}</p>
+        <div class="cart-total-buttons">
+            <app-button-component [buttonText]="'Clear Cart'" (buttonClick)="clearCart()" />
+            <app-button-component [buttonText]="'Checkout'" (buttonClick)="checkout()" />
+        </div>
+
+    </div>
+    } @else {
+    <div style="text-align: center; padding: 1rem;">
+        <p
+            style="font-size: 1rem; font-weight: 600; font-family: 'Arial', sans-serif; color: #4d4d4d; margin-bottom: 3rem;">
+            Cart is
+            empty</p>
+        <app-button-component [buttonText]="'Back'" (buttonClick)="goBack()" />
+    </div>
+
+    }
+</div>
+</section>
