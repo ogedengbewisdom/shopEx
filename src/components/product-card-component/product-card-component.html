@@ -1,4 +1,4 @@
-<article class="card" [class.in-cart]="isInCart" (click)="addToCart.emit()">
+<article class="card" [class.in-cart]="isInCart" (click)="navigateToProduct.emit()">
     <div class="card-image-container">
         <img [src]="imageUrl" [alt]="name" class="card-image">
     </div>

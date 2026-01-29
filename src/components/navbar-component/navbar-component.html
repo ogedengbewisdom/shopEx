@@ -7,59 +7,34 @@
 
         </div>
         <!-- TODO: add Search input component (nested) -->
+
+
+        @if(isProductsPage) {
         <div class="flex-1 search-container">
-            <app-search-input-component (search)="onSearch($event)" />
+            <app-search-input-component (search)="onSearch($event)" [searchValue]="searchValue()" />
         </div>
+        }
 
 
         <!-- navigation list -->
         <nav class="flex-1 nav-container">
             <ul class="nav-list">
-                <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">About</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/products" routerLinkActive="active">Products</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" routerLink="/cart" routerLinkActive="active">Cart</a></li>
             </ul>
         </nav>
 
         <!-- TODO: add Cart counter badge -->
-        <button type="button" class="cart-container" (click)="toggleCart()">
+        <button type="button" class="cart-container" (click)="navigateToCart()">
             <div class="cart-counter-badge">
-                <span class="cart-counter-badge-value">{{ count }}</span>
+                <span class="cart-counter-badge-value">{{ count() }}</span>
             </div>
 
             <img src="assets/cart.png" alt="cart" class="cart-icon">
         </button>
 
-        @if(showCart) {
-        <div class="cart-item-container">
-            @if(cartItems.length > 0) {
-            @for (cartItem of cartItems; track cartItem.id) {
-            <div class="cart-border">
-                <app-cart-component [name]="cartItem.name" [price]="cartItem.price" [quantity]="cartItem.quantity"
-                    [imageUrl]="cartItem.imageUrl"
-                    (addToCart)="addToCart.emit({ id: cartItem.id, name: cartItem.name, price: cartItem.price, imageUrl: cartItem.imageUrl })"
-                    (removeFromCart)="removeFromCart.emit({id: cartItem.id, name: cartItem.name, price: cartItem.price, imageUrl: cartItem.imageUrl})" />
-            </div>
-            }
-            <div class="cart-total-container">
-                <p class="cart-total-text">Total: $ {{ total }}</p>
-                <div class="cart-total-buttons">
-                    <app-button-component [buttonText]="'Clear Cart'" (buttonClick)="clearCart.emit()" />
-                    <app-button-component [buttonText]="'Checkout'" (buttonClick)="toggleCart()" />
-                </div>
-
-            </div>
-            } @else {
-            <div style="text-align: center; padding: 1rem;">
-                <p
-                    style="font-size: 1rem; font-weight: 600; font-family: 'Arial', sans-serif; color: #4d4d4d; margin-bottom: 3rem;">
-                    Cart is
-                    empty</p>
-                <app-button-component [buttonText]="'Cancel'" (buttonClick)="toggleCart()" />
-            </div>
-
-            }
-        </div>
-        }
     </div>
 </header>

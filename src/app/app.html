@@ -1,15 +1,5 @@
-<app-navbar-component [count]="count()" (search)="onSearch($event)" [cartItems]="cartItems()"
-    (addToCart)="addToCart($event)" (removeFromCart)="removeFromCart($event)" [total]="total()" (clearCart)="clearCart()" />
+<app-navbar-component />
 
-<main class=" main">
-    <main>
-        <section class="card-container">
-            @for (product of products(); track product.id) {
-            <app-product-card-component [name]="product.name" [description]="product.description"
-                [price]="product.price" [imageUrl]="product.imageUrl" (addToCart)="addToCart(product)"
-                [isInCart]="isInCart(product)" />
-            }
-        </section>
-    </main>
-
+<main class="main">
     <router-outlet />
+</main>
