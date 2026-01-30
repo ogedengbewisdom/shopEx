@@ -1,0 +1,46 @@
+.property-item {
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border-left: 4px solid #FF8C00;
+}
+
+.property-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.property-inputs div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    border: 1.5px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input:focus {
+    border-color: #FF8C00;
+    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+}
+
+@media (max-width: 600px) {
+    .property-inputs {
+        grid-template-columns: 1fr;
+    }
+}

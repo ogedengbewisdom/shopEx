@@ -1,0 +1,12 @@
+<div class="select-wrapper" [formGroup]="formGroup">
+    <label [for]="name" class="select-label">{{label}}</label>
+    <select [id]="name" class="select-input" [class.error]="hasError" [formControlName]="name">
+        <option value="" disabled selected>Select {{label}}</option>
+        <option value="men">Men</option>
+        <option value="women">Women</option>
+    </select>
+    @if (hasError) {
+    <p>{{errorMessage}}</p>
+    }
+
+</div>
