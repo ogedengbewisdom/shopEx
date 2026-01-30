@@ -1,0 +1,23 @@
+form {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 40px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.form-array-wrapper {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+}
+
+.form-array-item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}

@@ -1,0 +1,55 @@
+<form [formGroup]="productForm" class="form">
+    <app-text-input placeholder="Enter name" name="name" inputType="text" label="Name" [formGroup]="productForm" />
+    <app-text-input placeholder="Description" name="description" inputType="text" label="Description"
+        [formGroup]="productForm" />
+    <app-text-input placeholder="Price" name="price" inputType="number" label="Price" [formGroup]="productForm" />
+    <app-select-input name="category" label="Category" [formGroup]="productForm" />
+    <app-text-input placeholder="https://" name="imageUrl" inputType="url" label="Image URL"
+        [formGroup]="productForm" />
+    <app-radio-button name="inStock" label="In Stock?" [formGroup]="productForm" />
+    <app-text-input placeholder="Rating" name="rating" inputType="number" label="Rating" [formGroup]="productForm" />
+    <app-button-component buttonText="Add property" (buttonClick)="addProperty()" />
+
+    <!-- <div formArrayName="properties" class="form-array-wrapper">
+        @for (property of propertiesArray.controls; track $index) {
+        <div [formGroupName]="$index" class="form-array-item">
+            <div></div>
+
+            <app-text-input placeholder="Color" name="color" inputType="text" label="Color" [formGroup]="productForm" />
+            <app-text-input placeholder="Weight" name="weight" inputType="text" label="Weight"
+                [formGroup]="productForm" />
+
+            <app-property-input [propertyGroup]="property" />
+              <app-property-input [propertyGroup]="property as FormGroup" />
+        </div>
+        }
+    </div> -->
+
+    <div formArrayName="properties" class="form-array-wrapper">
+        @for (property of propertiesArray.controls; track $index) {
+        <div [formGroupName]="$index" class="form-array-item">
+
+            <div>
+                <div class="input-wrapper">
+                    <label for="color">Color</label>
+                    <input type="text" id="color" placeholder="Color" class="text-input" [class.error]=""
+                        formControlName="color">
+                    <!-- @if (hasError) {
+                <p>{{errorMessage}}</p>
+                } -->
+                </div>
+
+                <div class="input-wrapper">
+                    <label for="weight">Color</label>
+                    <input type="text" id="weight" placeholder="Weight" class="text-input" [class.error]=""
+                        formControlName="weight">
+                    <!-- @if (hasError) {
+                                                <p>{{errorMessage}}</p>
+                                                } -->
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+
+</form>
