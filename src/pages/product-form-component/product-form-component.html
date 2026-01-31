@@ -1,4 +1,7 @@
 <form [formGroup]="productForm" class="form">
+
+
+
     <app-text-input placeholder="Enter name" name="name" inputType="text" label="Name" [formGroup]="productForm"
         [hasError]="hasError('name')" [errorMessage]="errorMessage('name')" />
     <app-text-input placeholder="Description" name="description" inputType="text" label="Description"
@@ -61,6 +64,12 @@
             (buttonClick)="submitFormHandler()" />
     </div>
 
+    @if (successMessage) {
+    <p class="alert-success">{{ successMessage }}</p>
+    }
+    @if (httpErrorMessage) {
+    <p class="alert-error">{{ httpErrorMessage }}</p>
+    }
     <!-- <p>Form Valid: {{ productForm.valid }}</p>
     <p>Form Invalid: {{ productForm.invalid }}</p> -->
 

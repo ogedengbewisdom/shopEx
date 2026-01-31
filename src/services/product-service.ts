@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { ICartItem, IProduct } from '../lib/interface';
+import { ICartItem, ICreateProduct, IProduct } from '../lib/interface';
 
 @Injectable({
   providedIn: 'root',
@@ -89,7 +89,11 @@ export class ProductService {
       }),
     );
   }
-  getProductById(id: number): Observable<IProduct> {
+  getProductById(id: string): Observable<IProduct> {
     return this.http.get<IProduct>(`${this.baseUrl}/products/${id}`);
+  }
+
+  createProduct (product: ICreateProduct): Observable<ICreateProduct> {
+    return this.http.post<ICreateProduct>(`${this.baseUrl}/products`, product);
   }
 }

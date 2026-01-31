@@ -15,9 +15,9 @@ export class ProductDetailPage implements OnInit {
   route = inject(ActivatedRoute);
   router = inject(Router);
   productService = inject(ProductService);
-  productId = this.route.snapshot.paramMap.get('id');
+  productId = this.route.snapshot.paramMap.get('id') ?? '';
   category = this.route.snapshot.queryParamMap.get('category');
-  product$ = this.productService.getProductById(Number(this.productId));
+  product$ = this.productService.getProductById(this.productId);
 
   ngOnInit(): void {
     // this.route.queryParams.subscribe((params) => {

@@ -7,6 +7,8 @@ import { ButtonComponent } from '../../components/button-component/button-compon
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ProductService } from '../../services/product-service';
+import { Router } from '@angular/router';
 // import { PropertyInput } from '../../components/property-input/property-input';
 
 @Component({
@@ -16,12 +18,16 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrl: './product-form-component.css',
 })
 export class ProductFormComponent implements OnInit {
-  private fb = inject(FormBuilder)
+  private fb = inject(FormBuilder);
+  private router = inject(Router)
   // placeholer = ""
+  private productServices = inject(ProductService)
   productForm!: FormGroup
   destroyRef$ = inject(DestroyRef)
+  isSubmitting = false;
+  successMessage = '';
+  httpErrorMessage = '';
 
-  categoryError= true
 
   ngOnInit(): void {
     this.buildForm()
@@ -148,7 +154,34 @@ getArrayErrorMessage(fieldName: string, index: number): string {
 
 
   submitFormHandler () {
-    console.log(this.productForm.value)
+
+    if (!this.productForm.valid) {
+      this.httpErrorMessage = 'Please fill all required fields';
+      return;
+    }
+
+   this.isSubmitting = true;
+   const productData = this.productForm.value;
+    this.productServices.createProduct(productData).subscribe({
+      next: (value) => {
+        this.isSubmitting = false;
+        this.successMessage = 'Product created successfully!';
+        console.log('Created product:', value);
+        
+        this.productForm.reset({ inStock: true, rating: 0 });
+        
+        setTimeout(() => {
+          this.router.navigate(['/products']);
+        }, 5000);
+      },
+      error: error => {
+        this.errorMessage = error.error?.message || 'Error creating product';
+      },
+      complete: () => {
+        this.isSubmitting = false; 
+      }
+    })
+    // console.log(this.productForm.value)
   }
 
 }

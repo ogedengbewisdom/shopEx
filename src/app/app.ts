@@ -12,15 +12,15 @@ import { ICartItem, IProduct } from '../lib/interface';
   styleUrl: './app.css',
 })
 export class AppComponent {
-  // fetchProducts = async () => {
-  //   const response = await fetch('https://fakestoreapi.com/products');
-  //   const data = await response.json();
-  //   console.log(data);
-  // };
+  fetchProducts = async () => {
+    const response = await fetch('https://fakestoreapi.com/products');
+    const data = await response.json();
+    console.log(data);
+  };
 
-  // ngOnInit() {
-  //   this.fetchProducts();
-  // }
+  ngOnInit() {
+    this.fetchProducts();
+  }
   protected readonly title = signal('shopEx');
 
 
