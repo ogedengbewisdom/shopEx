@@ -176,10 +176,12 @@ getArrayErrorMessage(fieldName: string, index: number): string {
         }, 2000);
       },
       error: error => {
+        this.isSubmitting = false;
         this.errorMessage = error.error?.message || 'Error creating product';
       },
       complete: () => {
-        this.isSubmitting = false; 
+        // this.isSubmitting = false; 
+        console.log('completed')
       }
     })
     // console.log(this.productForm.value)

@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../components/navbar-component/navbar-component';
 import { ProductCardComponent } from '../components/product-card-component/product-card-component';
@@ -11,15 +11,15 @@ import { ICartItem, IProduct } from '../lib/interface';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class AppComponent {
-  fetchProducts = async () => {
-    const response = await fetch('https://fakestoreapi.com/products');
-    const data = await response.json();
-    console.log(data);
-  };
+export class AppComponent implements OnInit {
+  // fetchProducts = async () => {
+  //   const response = await fetch('https://fakestoreapi.com/products');
+  //   const data = await response.json();
+  //   console.log(data);
+  // };
 
   ngOnInit() {
-    this.fetchProducts();
+    // this.fetchProducts();
   }
   protected readonly title = signal('shopEx');
 

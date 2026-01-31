@@ -68,8 +68,11 @@
     @if (httpErrorMessage) {
     <p class="alert-error">{{ httpErrorMessage }}</p>
     }
+    @if (isSubmitting) {
+        <p class="alert-loading">Loading...</p>
+    }
     <div class="btn-delete">
-        <app-button-component [isDisabled]="productForm.invalid" buttonText="Submit"
+        <app-button-component [isDisabled]="productForm.invalid || isSubmitting" buttonText="Submit"
             (buttonClick)="submitFormHandler()" />
     </div>
 

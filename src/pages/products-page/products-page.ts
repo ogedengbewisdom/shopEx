@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, DestroyRef, effect, inject, OnInit } from '@angular/core';
 import { ProductCardComponent } from '../../components/product-card-component/product-card-component';
-import { Observable } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import { IProduct } from '../../lib/interface';
 import { ProductService } from '../../services/product-service';
 import { CommonModule } from '@angular/common';
@@ -30,13 +30,25 @@ export class ProductsPage implements OnInit {
     });
   };
 
+  // ngOnInit(): void {
+  //   // this.products$ = this.productService.getAllProducts();
+  //   this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((params) => {
+  //     const search = params['name'] || '';
+  //     this.products$ = this.productService.getAllProducts(search);
+  //   });
+  // }
+
   ngOnInit(): void {
-    // this.products$ = this.productService.getAllProducts();
-    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((params) => {
+  this.route.queryParams.pipe(
+    takeUntilDestroyed(this.destroyRef$),
+    switchMap((params) => {
       const search = params['name'] || '';
-      this.products$ = this.productService.getAllProducts(search);
-    });
-  }
+      return this.productService.getAllProducts(search);
+    })
+  ).subscribe((products) => {
+    this.products$ = of(products);
+  });
+}
 
   addToCart(product: IProduct) {
     this.productService.addToCart(product);

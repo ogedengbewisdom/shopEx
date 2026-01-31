@@ -56,6 +56,13 @@ form {
     font-weight: bold;
 }
 
+.alert-loading {
+    color: #333;
+    font-size: medium;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
 label {
     display: block;
     font-size: 0.95rem;
