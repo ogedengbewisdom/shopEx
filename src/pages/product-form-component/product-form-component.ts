@@ -9,11 +9,12 @@ import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProductService } from '../../services/product-service';
 import { Router } from '@angular/router';
+import { TextArea } from '../../components/text-area/text-area';
 // import { PropertyInput } from '../../components/property-input/property-input';
 
 @Component({
   selector: 'app-product-form-component',
-  imports: [CommonModule ,ReactiveFormsModule, TextInput, SelectInput, RadioButton, ButtonComponent],
+  imports: [CommonModule ,ReactiveFormsModule,TextArea, TextInput, SelectInput, RadioButton, ButtonComponent],
   templateUrl: './product-form-component.html',
   styleUrl: './product-form-component.css',
 })
@@ -40,7 +41,7 @@ export class ProductFormComponent implements OnInit {
     this.productForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
-      price: [0, [Validators.required, Validators.min(50)]],
+      price: ['', [Validators.required, Validators.min(50)]],
       category: ['', [Validators.required]],
       imageUrl: ['', [Validators.required, Validators.pattern(/^https?:\/\/.+/)]],
       inStock: [true],
@@ -172,7 +173,7 @@ getArrayErrorMessage(fieldName: string, index: number): string {
         
         setTimeout(() => {
           this.router.navigate(['/products']);
-        }, 5000);
+        }, 2000);
       },
       error: error => {
         this.errorMessage = error.error?.message || 'Error creating product';

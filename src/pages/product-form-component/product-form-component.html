@@ -4,7 +4,9 @@
 
     <app-text-input placeholder="Enter name" name="name" inputType="text" label="Name" [formGroup]="productForm"
         [hasError]="hasError('name')" [errorMessage]="errorMessage('name')" />
-    <app-text-input placeholder="Description" name="description" inputType="text" label="Description"
+    <!-- <app-text-input placeholder="Description" name="description" inputType="text" label="Description"
+        [formGroup]="productForm" [hasError]="hasError('description')" [errorMessage]="errorMessage('description')" /> -->
+    <app-text-area placeholder="Description" name="description" inputType="text" label="Description"
         [formGroup]="productForm" [hasError]="hasError('description')" [errorMessage]="errorMessage('description')" />
     <app-text-input placeholder="Price" name="price" inputType="number" label="Price" [formGroup]="productForm"
         [hasError]="hasError('price')" [errorMessage]="errorMessage('price')" />
