@@ -44,10 +44,16 @@ form {
 
 .alert-success {
     color: green;
+    font-size: medium;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
 }
 
 .alert-error {
     color: #d32f2f;
+    font-size: medium;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
 }
 
 label {
