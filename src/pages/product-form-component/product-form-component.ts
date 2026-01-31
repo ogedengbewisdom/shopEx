@@ -1,14 +1,17 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TextInput } from '../../components/text-input/text-input';
 import { SelectInput } from '../../components/select-input/select-input';
 import { RadioButton } from '../../components/radio-button/radio-button';
 import { ButtonComponent } from '../../components/button-component/button-component';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // import { PropertyInput } from '../../components/property-input/property-input';
 
 @Component({
   selector: 'app-product-form-component',
-  imports: [ReactiveFormsModule, TextInput, SelectInput, RadioButton, ButtonComponent],
+  imports: [CommonModule ,ReactiveFormsModule, TextInput, SelectInput, RadioButton, ButtonComponent],
   templateUrl: './product-form-component.html',
   styleUrl: './product-form-component.css',
 })
@@ -16,12 +19,16 @@ export class ProductFormComponent implements OnInit {
   private fb = inject(FormBuilder)
   // placeholer = ""
   productForm!: FormGroup
+  destroyRef$ = inject(DestroyRef)
 
   categoryError= true
 
   ngOnInit(): void {
     this.buildForm()
+    // this.listenToChanges()
   }
+
+  isInValid!: boolean
 
   buildForm() {
     this.productForm = this.fb.group({
@@ -47,6 +54,101 @@ export class ProductFormComponent implements OnInit {
     })
 
     this.propertiesArray.push(propertyGroup)
+  }
+
+  removeProperty(id: number) {
+    this.propertiesArray.removeAt(id)
+  }
+
+  listenToChanges () {
+    this.productForm.valueChanges.pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef$)).subscribe((data) => {
+      // this.isInValid 
+      console.log(data)
+    })
+  }
+
+  get controls() {
+    return this.productForm.controls
+  }
+
+hasError(formInputName: string): boolean {
+  return this.controls[formInputName]?.touched && this.controls[formInputName]?.invalid;
+}
+
+formatFieldName(fieldName: string): string {
+  return fieldName
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, str => str.toUpperCase())
+    .trim();
+}
+
+errorMessage(formInputName: string): string {
+  const control = this.controls[formInputName];
+
+  if (!control || !control.errors) {
+    return '';
+  }
+
+  if (control.errors['required']) {
+    return `${this.formatFieldName(formInputName)} is required`;
+  }
+
+  if (control.errors['minlength']) {
+    const minLength = control.errors['minlength'].requiredLength;
+    return `${this.formatFieldName(formInputName)} must be at least ${minLength} characters`;
+  }
+
+
+  if (control.errors['min']) {
+    const minValue = control.errors['min'].min;
+    return `${this.formatFieldName(formInputName)} must be at least ${minValue}`;
+  }
+
+
+  if (control.errors['max']) {
+    const maxValue = control.errors['max'].max;
+    return `${this.formatFieldName(formInputName)} cannot exceed ${maxValue}`;
+  }
+
+
+  if (control.errors['pattern']) {
+    return `${this.formatFieldName(formInputName)} format is invalid`;
+  }
+
+  return 'Invalid field';
+}
+
+hasArrayError(fieldName: string, index: number): boolean {
+  const control = this.propertiesArray.at(index)?.get(fieldName);
+  return !!(control && control.touched && control.invalid);
+}
+
+getArrayErrorMessage(fieldName: string, index: number): string {
+  const control = this.propertiesArray.at(index)?.get(fieldName);
+
+  if (!control || !control.errors) {
+    return '';
+  }
+
+  if (control.errors['required']) {
+    return `${this.formatFieldName(fieldName)} is required`;
+  }
+
+  if (control.errors['minlength']) {
+    const minLength = control.errors['minlength'].requiredLength;
+    return `${this.formatFieldName(fieldName)} must be at least ${minLength} characters`;
+  }
+
+  if (control.errors['pattern']) {
+    return `${this.formatFieldName(fieldName)} format is invalid`;
+  }
+
+  return 'Invalid field';
+}
+
+
+  submitFormHandler () {
+    console.log(this.productForm.value)
   }
 
 }

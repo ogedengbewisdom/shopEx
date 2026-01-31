@@ -1,13 +1,17 @@
 <form [formGroup]="productForm" class="form">
-    <app-text-input placeholder="Enter name" name="name" inputType="text" label="Name" [formGroup]="productForm" />
+    <app-text-input placeholder="Enter name" name="name" inputType="text" label="Name" [formGroup]="productForm"
+        [hasError]="hasError('name')" [errorMessage]="errorMessage('name')" />
     <app-text-input placeholder="Description" name="description" inputType="text" label="Description"
-        [formGroup]="productForm" />
-    <app-text-input placeholder="Price" name="price" inputType="number" label="Price" [formGroup]="productForm" />
-    <app-select-input name="category" label="Category" [formGroup]="productForm" />
-    <app-text-input placeholder="https://" name="imageUrl" inputType="url" label="Image URL"
-        [formGroup]="productForm" />
+        [formGroup]="productForm" [hasError]="hasError('description')" [errorMessage]="errorMessage('description')" />
+    <app-text-input placeholder="Price" name="price" inputType="number" label="Price" [formGroup]="productForm"
+        [hasError]="hasError('price')" [errorMessage]="errorMessage('price')" />
+    <app-select-input name="category" label="Category" [formGroup]="productForm" [hasError]="hasError('category')"
+        [errorMessage]="errorMessage('category')" />
+    <app-text-input placeholder="https://" name="imageUrl" inputType="url" label="Image URL" [formGroup]="productForm"
+        [hasError]="hasError('imageUrl')" [errorMessage]="errorMessage('imageUrl')" />
     <app-radio-button name="inStock" label="In Stock?" [formGroup]="productForm" />
-    <app-text-input placeholder="Rating" name="rating" inputType="number" label="Rating" [formGroup]="productForm" />
+    <app-text-input placeholder="Rating" name="rating" inputType="number" label="Rating" [formGroup]="productForm"
+        [hasError]="hasError('rating')" [errorMessage]="errorMessage('rating')" />
     <app-button-component buttonText="Add property" (buttonClick)="addProperty()" />
 
     <!-- <div formArrayName="properties" class="form-array-wrapper">
@@ -29,27 +33,35 @@
         @for (property of propertiesArray.controls; track $index) {
         <div [formGroupName]="$index" class="form-array-item">
 
-            <div>
-                <div class="input-wrapper">
-                    <label for="color">Color</label>
-                    <input type="text" id="color" placeholder="Color" class="text-input" [class.error]=""
-                        formControlName="color">
-                    <!-- @if (hasError) {
-                <p>{{errorMessage}}</p>
-                } -->
-                </div>
 
-                <div class="input-wrapper">
-                    <label for="weight">Color</label>
-                    <input type="text" id="weight" placeholder="Weight" class="text-input" [class.error]=""
-                        formControlName="weight">
-                    <!-- @if (hasError) {
-                                                <p>{{errorMessage}}</p>
-                                                } -->
-                </div>
+            <div class="input-wrapper">
+                <label for="color">Color</label>
+                <input type="text" id="color" placeholder="Color" class="text-input" [class.error]=""
+                    formControlName="color">
+                @if (hasArrayError('color', $index)) {
+                <p>{{getArrayErrorMessage('color', $index)}}</p>
+                }
             </div>
+
+            <div class="input-wrapper">
+                <label for="weight">Weight</label>
+                <input type="text" id="weight" placeholder="Weight" class="text-input" [class.error]=""
+                    formControlName="weight">
+                @if (hasArrayError('weight', $index)) {
+                <p>{{getArrayErrorMessage('weight', $index)}}</p>
+                }
+            </div>
+
+            <app-button-component buttonText="-" (buttonClick)="removeProperty($index)" />
         </div>
         }
     </div>
+    <div class="btn-delete">
+        <app-button-component [isDisabled]="productForm.invalid" buttonText="Submit"
+            (buttonClick)="submitFormHandler()" />
+    </div>
+
+    <!-- <p>Form Valid: {{ productForm.valid }}</p>
+    <p>Form Invalid: {{ productForm.invalid }}</p> -->
 
 </form>

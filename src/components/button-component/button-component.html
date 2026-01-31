@@ -1,1 +1,2 @@
-<button type="button" class="search-button" (click)="buttonClick.emit()">{{ buttonText }}</button>
+<button type="button" class="search-button" (click)="buttonClick.emit()" [disabled]="isDisabled"
+    [class.disabled]="isDisabled">{{ buttonText }}</button>
