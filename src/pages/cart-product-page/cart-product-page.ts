@@ -4,27 +4,30 @@ import { CartComponent } from '../../components/cart/cart';
 import { ButtonComponent } from '../../components/button-component/button-component';
 // import { Router } from '@angular/router';
 import { IProduct } from '../../lib/interface';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { StateService } from '../../services/state-service';
 
 @Component({
   selector: 'app-cart-product-page',
-  imports: [CartComponent, ButtonComponent],
+  imports: [CartComponent, ButtonComponent, CommonModule],
   templateUrl: './cart-product-page.html',
   styleUrl: './cart-product-page.css',
 })
 export class CartProductPage {
   private location = inject(Location);
   private router = inject(Router);
-  productService = inject(ProductService);
-  cartItems = this.productService.cartItems;
-  total = this.productService.total;
+  // productService = inject(ProductService);
+  private stateService = inject(StateService);
+  cartItems = this.stateService.cart$;
+  // total = this.productService.total;
+  totalPrice = this.stateService.totalPrice;
   clearCart = () => {
-    this.productService.cartItems.set([]);
+    this.stateService.clearCart();
   };
 
   addToCart = (product: IProduct) => {
-    this.productService.addToCart(product);
+    this.stateService.addToCart(product);
   };
 
   goBack(): void {
@@ -38,7 +41,7 @@ export class CartProductPage {
     this.router.navigate(['/products']);
   }
 
-  removeFromCart = (product: IProduct) => {
-    this.productService.removeFromCart(product);
+  removeFromCart = (productId: number) => {
+    this.stateService.removeFromCart(productId);
   };
 }

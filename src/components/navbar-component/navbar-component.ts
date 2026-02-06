@@ -5,11 +5,12 @@ import { ICartItem, IProduct } from '../../lib/interface';
 import { ButtonComponent } from '../button-component/button-component';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService } from '../../services/product-service';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
+import { StateService } from '../../services/state-service';
 
 @Component({
   selector: 'app-navbar-component',
-  imports: [SearchInputComponent, RouterModule],
+  imports: [SearchInputComponent, RouterModule, CommonModule],
   templateUrl: './navbar-component.html',
   styleUrl: './navbar-component.css',
 })
@@ -17,9 +18,10 @@ export class NavbarComponent implements OnInit {
   // @Input() count!: number;
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private location = inject(Location);
-  productService = inject(ProductService);
-  count = this.productService.count;
+  private stateService = inject(StateService);
+  // productService = inject(ProductService);
+
+  count = this.stateService.cartCount;
   showCart: boolean = false;
   @Output() search = new EventEmitter<string>();
 

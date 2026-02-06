@@ -1,9 +1,7 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../components/navbar-component/navbar-component';
-import { ProductCardComponent } from '../components/product-card-component/product-card-component';
 import { PRODUCTS } from '../lib/service';
-import { ICartItem, IProduct } from '../lib/interface';
 
 @Component({
   selector: 'app-root',
@@ -22,18 +20,4 @@ export class AppComponent implements OnInit {
     // this.fetchProducts();
   }
   protected readonly title = signal('shopEx');
-
-
-  searchValue = signal<string>('');
-
-  products = computed(() =>
-    PRODUCTS.filter((product) =>
-      product.name.toLocaleLowerCase().includes(this.searchValue().toLowerCase())
-    )
-  );
-
-
-  // clearCart = () => {
-  //   this.cartItems.set([]);
-  // };
 }

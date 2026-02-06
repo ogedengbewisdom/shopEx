@@ -4,7 +4,9 @@
     </div>
     <div class="card-content">
         <h2 class="card-title">{{ name }}</h2>
-        <p class="card-description">{{ description }}</p>
+        <p class="card-description">{{ description && description.length > 100 ? description.substring(0, 100) + '...' :
+            description }}
+        </p>
         <p class="card-price">$ {{ price }}</p>
     </div>
 </article>

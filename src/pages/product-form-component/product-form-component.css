@@ -88,3 +88,13 @@ input.error {
         width: 100%;
     }
 }
+
+@media (max-width: 768px) {
+    .alert-error {
+        font-size: 0.8rem;
+    }
+
+    .alert-success {
+        font-size: 0.8rem;
+    }
+}
