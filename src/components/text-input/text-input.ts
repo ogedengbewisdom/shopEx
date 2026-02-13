@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 // import { FormsModule } from "@angular/forms";
 
-type TInput = 'text' | 'number' | 'url'
+type TInput = 'text' | 'number' | 'url' | 'password' | 'email'
 
 @Component({
   selector: 'app-text-input',

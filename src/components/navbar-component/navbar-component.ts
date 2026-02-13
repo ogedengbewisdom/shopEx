@@ -7,6 +7,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService } from '../../services/product-service';
 import { CommonModule, Location } from '@angular/common';
 import { StateService } from '../../services/state-service';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-navbar-component',
@@ -29,6 +30,8 @@ export class NavbarComponent implements OnInit {
   @Output() removeFromCart = new EventEmitter<IProduct>();
   @Output() clearCart = new EventEmitter<void>();
   @Input() total!: number;
+  private authService = inject(AuthService);
+  isAuthenticated$ = this.authService.isAuthenticated$;
   searchValue = signal<string>('');
 
   ngOnInit(): void {
@@ -48,6 +51,10 @@ export class NavbarComponent implements OnInit {
 
   navigateToCart() {
     this.router.navigate(['/cart']);
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
   onSearch = (searchValue: string) => {

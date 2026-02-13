@@ -1,0 +1,7 @@
+<form [formGroup]="loginForm" class="form">
+    <app-text-input placeholder="Enter email" name="email" inputType="email" label="Email" [formGroup]="loginForm"
+        [hasError]="hasError('email')" [errorMessage]="errorMessage('email')" />
+    <app-password-input placeholder="Enter password" name="password" inputType="password" label="Password"
+        [formGroup]="loginForm" [hasError]="hasError('password')" [errorMessage]="errorMessage('password')" />
+    <app-button-component buttonText="Login" (buttonClick)="loginHandler()" />
+</form>
