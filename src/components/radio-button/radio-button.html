@@ -1,0 +1,14 @@
+<div class="radio-wrapper" [formGroup]="formGroup">
+    <label class="radio-label">{{label}}</label>
+    <div class="radio-options">
+        <div class="radio-group">
+            <input type="radio" [id]="name + '-true'" [value]="true" [formControlName]="name" class="radio-input">
+            <label [for]="name + '-true'" class="radio-text">True</label>
+        </div>
+
+        <div class="radio-group">
+            <input type="radio" [id]="name + '-false'" [value]="false" [formControlName]="name" class="radio-input">
+            <label [for]="name + '-false'" class="radio-text">False</label>
+        </div>
+    </div>
+</div>

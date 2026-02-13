@@ -1,0 +1,10 @@
+<div class="error-container">
+    <p class="error-message">{{ error }}</p>
+    @if(statusCode !== null) {
+    <p class="error-code">Error Code: {{ statusCode }}</p>
+    }
+    <!-- <app-button-component [buttonText]="'Go Home'" (buttonClick)="goBack()" /> -->
+    <div class="error-buttons">
+        <app-button-component [buttonText]="'Reload'" (buttonClick)="reload()" />
+    </div>
+</div>

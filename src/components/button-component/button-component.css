@@ -21,6 +21,11 @@
     background-color: #c7760d;
 }
 
+.disabled {
+    background-color: #c7760d;
+    cursor: not-allowed;
+}
+
 @media (max-width: 480px) {
 
     .search-button {

@@ -24,13 +24,17 @@
                 <li class="nav-item"><a class="nav-link" routerLink="/products" routerLinkActive="active">Products</a>
                 </li>
                 <li class="nav-item"><a class="nav-link" routerLink="/cart" routerLinkActive="active">Cart</a></li>
+                @if(isAuthenticated$ | async) {
+                <!-- <li class="nav-item"><span class="nav-link" routerLink="/cart" >Cart</a></li> -->
+                <li class="nav-item"><span class="nav-link" (click)="logout()">Logout</span></li>
+                }
             </ul>
         </nav>
 
         <!-- TODO: add Cart counter badge -->
         <button type="button" class="cart-container" (click)="navigateToCart()">
             <div class="cart-counter-badge">
-                <span class="cart-counter-badge-value">{{ count() }}</span>
+                <span class="cart-counter-badge-value">{{ count | async }}</span>
             </div>
 
             <img src="assets/cart.png" alt="cart" class="cart-icon">

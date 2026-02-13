@@ -1,8 +1,26 @@
+<!-- <ng-container *ngIf="state$ | async as state"> -->
+
+@if(state$ | async; as state) {
+
+@if (state.loading) {
+<app-loader />
+
+}
+
+@else if (state.error) {
+<app-display-error [error]="state.error" [statusCode]="state.statusCode" />
+}
+
+@else {
 <section class="card-container">
-    @for (product of products$ | async; track product.id) {
+    @for (product of state.products; track product.id) {
     <app-product-card-component [name]="product.name" [description]="product.description" [price]="product.price"
-        [imageUrl]="product.imageUrl" (navigateToProduct)="navigateToProduct(product)" [isInCart]="isInCart(product)" />
-    }@empty {
-    <p>No product found</p>
+        [imageUrl]="product.imageUrl" (navigateToProduct)="navigateToProduct(product)"
+        [isInCart]="(isInCart(product.id) | async) || false" />
+    } @empty {
+    <p>No products found</p>
     }
 </section>
+}
+}
+<!-- </ng-container> -->

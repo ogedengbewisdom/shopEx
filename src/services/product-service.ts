@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { map, Observable } from 'rxjs';
-import { ICartItem, IProduct } from '../lib/interface';
+import { catchError, map, Observable } from 'rxjs';
+import { ICartItem, ICreateProduct, IProduct } from '../lib/interface';
+import { ErrorHandlerService } from './error-handler-service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,7 @@ import { ICartItem, IProduct } from '../lib/interface';
 export class ProductService {
   private baseUrl = 'http://localhost:3000';
   private http = inject(HttpClient);
+  private errorHandlerService = inject(ErrorHandlerService);
   cartItems = signal<ICartItem[]>([]);
 
   count = computed(() =>
@@ -87,9 +89,14 @@ export class ProductService {
           product.name.toLowerCase().includes(search.toLowerCase()),
         );
       }),
+      catchError((error) => this.errorHandlerService.errorHandler(error))
     );
   }
-  getProductById(id: number): Observable<IProduct> {
-    return this.http.get<IProduct>(`${this.baseUrl}/products/${id}`);
+  getProductById(id: string): Observable<IProduct> {
+    return this.http.get<IProduct>(`${this.baseUrl}/products/${id}`).pipe(catchError((error) => this.errorHandlerService.errorHandler(error)));
+  }
+
+  createProduct (product: ICreateProduct): Observable<ICreateProduct> {
+    return this.http.post<ICreateProduct>(`${this.baseUrl}/products`, product).pipe(catchError((error) => this.errorHandlerService.errorHandler(error)));
   }
 }
