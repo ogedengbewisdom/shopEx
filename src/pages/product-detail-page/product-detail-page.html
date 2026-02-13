@@ -11,9 +11,9 @@
         <img [src]="state.product.imageUrl" [alt]="state.product.name" class="product-image">
     </div>
     <div class="product-detail-content">
-        <h1 class="product-detail-title">{{ state.product.name }}</h1>
-        <p class="product-detail-category">Category: {{ category || state.product.category }}</p>
-        <p class="product-detail-description">{{ state.product.description }}</p>
+        <h1 class="product-detail-title">{{ state.product.name | titlecase }}</h1>
+        <p class="product-detail-category">Category: {{ category || state.product.category | titlecase}}</p>
+        <p class="product-detail-description">{{ state.product.description}}</p>
         <p class="product-detail-price">Price: ${{ state.product.price }}</p>
         <p>{{ state.product.inStock ? 'In Stock' : 'Out of Stock' }}</p>
         <p>Rating: {{ state.product.rating }}</p>

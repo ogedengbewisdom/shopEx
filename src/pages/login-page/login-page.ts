@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TextInput } from '../../components/text-input/text-input';
 import { ButtonComponent } from '../../components/button-component/button-component';
 import { AuthService } from '../../services/auth-service';
 import { PasswordInput } from '../../components/password-input/password-input';
 import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-login-page',
@@ -17,6 +19,7 @@ export class LoginPage implements OnInit {
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private destroyRef$ = inject(DestroyRef);
   loginForm!: FormGroup;
   private authService = inject(AuthService);
 
@@ -24,7 +27,11 @@ export class LoginPage implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
-    this.redirectUrl = this.route.snapshot.queryParams['redirectUrl'] || '/products';
+    this.route.queryParams
+      .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef$))
+      .subscribe((params) => {
+        this.redirectUrl = params['redirectUrl'] || '/products';
+      });
   }
 
   buildForm() {
@@ -35,6 +42,7 @@ export class LoginPage implements OnInit {
   }
 
   loginHandler() {
+    console.log('redirectUrl', this.redirectUrl);
     if (!this.loginForm.valid) {
       return;
     }

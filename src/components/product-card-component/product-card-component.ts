@@ -1,9 +1,10 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product-card-component',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './product-card-component.html',
   styleUrl: './product-card-component.css',
 })
@@ -16,6 +17,4 @@ export class ProductCardComponent {
   @Input() isInCart: boolean = false;
   // @Output() addToCart = new EventEmitter<void>();
   @Output() navigateToProduct = new EventEmitter<number>();
-
-
 }
