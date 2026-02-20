@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, DestroyRef, effect, inject, OnInit } from '@angular/core';
-import { ProductCardComponent } from '../../components/product-card-component/product-card-component';
+import { ProductCardComponent } from '../../../components/product-card-component/product-card-component';
 import {
   BehaviorSubject,
   catchError,
@@ -11,14 +11,14 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import { CustomError, IProduct } from '../../lib/interface';
-import { ProductService } from '../../services/product-service';
+import { CustomError, IProduct } from '../../../lib/interface';
+import { ProductService } from '../../../services/product-service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { StateService } from '../../services/state-service';
-import { Loader } from '../../components/loader/loader';
-import { DisplayError } from '../../components/display-error/display-error';
+import { StateService } from '../../../services/state-service';
+import { Loader } from '../../../components/loader/loader';
+import { DisplayError } from '../../../components/display-error/display-error';
 
 export interface ProductListState {
   products: IProduct[];

@@ -1,24 +1,24 @@
 import { Routes } from '@angular/router';
-import { ProductsPage } from '../pages/products-page/products-page';
-import { ProductDetailPage } from '../pages/product-detail-page/product-detail-page';
-import { CartProductPage } from '../pages/cart-product-page/cart-product-page';
 import { NotFoundPage } from '../pages/not-found-page/not-found-page';
-import { ProductFormComponent } from '../pages/product-form-component/product-form-component';
-import { LoginPage } from '../pages/login-page/login-page';
 import { authGuard } from '../guard/auth-guard';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginPage },
-  { path: '', redirectTo: 'products', pathMatch: 'full' },
+  { path: '', loadComponent: () => import('../pages/home-page/home-page').then((m) => m.HomePage) },
+  {
+    path: 'login',
+    loadComponent: () => import('../pages/login-page/login-page').then((m) => m.LoginPage),
+  },
   {
     path: 'products',
-    canActivate: [authGuard],
-    children: [
-      { path: '', component: ProductsPage },
-      { path: 'new', component: ProductFormComponent },
-      { path: ':id', component: ProductDetailPage },
-    ],
+    loadChildren: () => import('../pages/products/product-routes').then((m) => m.PRODUCT_ROUTES),
   },
-  { path: 'cart', canActivate: [authGuard], component: CartProductPage },
+  {
+    path: 'cart',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('../pages/cart-product-page/cart-product-page').then((m) => m.CartProductPage),
+  },
+
+  // note i did not lazy load the wildcard component because it is just little and we might need it immediately
   { path: '**', component: NotFoundPage },
 ];
