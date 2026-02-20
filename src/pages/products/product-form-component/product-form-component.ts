@@ -1,17 +1,17 @@
 import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TextInput } from '../../components/text-input/text-input';
-import { SelectInput } from '../../components/select-input/select-input';
-import { RadioButton } from '../../components/radio-button/radio-button';
-import { ButtonComponent } from '../../components/button-component/button-component';
+import { TextInput } from '../../../components/text-input/text-input';
+import { SelectInput } from '../../../components/select-input/select-input';
+import { RadioButton } from '../../../components/radio-button/radio-button';
+import { ButtonComponent } from '../../../components/button-component/button-component';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ProductService } from '../../services/product-service';
+import { ProductService } from '../../../services/product-service';
 import { Router } from '@angular/router';
-import { TextArea } from '../../components/text-area/text-area';
-import { StateService } from '../../services/state-service';
-import { CustomError, IProduct } from '../../lib/interface';
+import { TextArea } from '../../../components/text-area/text-area';
+import { StateService } from '../../../services/state-service';
+import { CustomError, IProduct } from '../../../lib/interface';
 // import { PropertyInput } from '../../components/property-input/property-input';
 
 @Component({
