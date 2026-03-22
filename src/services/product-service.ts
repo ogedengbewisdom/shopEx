@@ -1,14 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { catchError, map, Observable } from 'rxjs';
-import { ICartItem, ICreateProduct, IProduct } from '../lib/interface';
+import { APIResponse, ICartItem, ICreateProduct, IProduct } from '../lib/interface';
 import { ErrorHandlerService } from './error-handler-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private baseUrl = 'http://localhost:3000';
+  private baseUrl = 'http://localhost:3000/api/v1';
   private http = inject(HttpClient);
   private errorHandlerService = inject(ErrorHandlerService);
   cartItems = signal<ICartItem[]>([]);
@@ -80,23 +80,28 @@ export class ProductService {
   };
 
   getAllProducts(search?: string): Observable<IProduct[]> {
-    return this.http.get<IProduct[]>(`${this.baseUrl}/products`).pipe(
-      map((products: IProduct[]) => {
+    return this.http.get<APIResponse<IProduct[]>>(`${this.baseUrl}/products`).pipe(
+      map((products: APIResponse<IProduct[]>) => {
         if (!search || search.trim() === '') {
-          return products;
+          return products.data;
         }
-        return products.filter((product: IProduct) =>
+        return products.data.filter((product: IProduct) =>
           product.name.toLowerCase().includes(search.toLowerCase()),
         );
       }),
-      catchError((error) => this.errorHandlerService.errorHandler(error))
+      // catchError((error) => this.errorHandlerService.errorHandler(error)),
     );
   }
   getProductById(id: string): Observable<IProduct> {
-    return this.http.get<IProduct>(`${this.baseUrl}/products/${id}`).pipe(catchError((error) => this.errorHandlerService.errorHandler(error)));
+    return this.http
+      .get<APIResponse<IProduct>>(`${this.baseUrl}/products/${id}`)
+      .pipe(map((data) => data.data));
+    // .pipe(catchError((error) => this.errorHandlerService.errorHandler(error)));
   }
 
-  createProduct (product: ICreateProduct): Observable<ICreateProduct> {
-    return this.http.post<ICreateProduct>(`${this.baseUrl}/products`, product).pipe(catchError((error) => this.errorHandlerService.errorHandler(error)));
+  createProduct(product: ICreateProduct): Observable<ICreateProduct> {
+    return this.http
+      .post<APIResponse<ICreateProduct>>(`${this.baseUrl}/products`, product)
+      .pipe(map((data) => data.data));
   }
 }

@@ -170,7 +170,15 @@ export class ProductFormComponent implements OnInit {
     this.stateService.setLoading(true);
     this.stateService.setError(null, null);
     this.stateService.setSuccess(null, null);
-    const productData = this.productForm.value;
+    // const productData = this.productForm.value;
+
+    const productData = {
+      ...this.productForm.value,
+      rating: Number(this.productForm.value.rating),
+      price: Number(this.productForm.value.price),
+    };
+
+    console.log('productData', productData);
     this.productServices.createProduct(productData).subscribe({
       next: (value) => {
         this.stateService.setSuccess('Product created successfully!', 201);
