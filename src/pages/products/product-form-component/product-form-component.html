@@ -1,7 +1,4 @@
 <form [formGroup]="productForm" class="form">
-
-
-
     <app-text-input placeholder="Enter name" name="name" inputType="text" label="Name" [formGroup]="productForm"
         [hasError]="hasError('name')" [errorMessage]="errorMessage('name')" />
     <app-text-area placeholder="Description" name="description" inputType="text" label="Description"

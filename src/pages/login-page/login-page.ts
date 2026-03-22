@@ -8,6 +8,7 @@ import { PasswordInput } from '../../components/password-input/password-input';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { distinctUntilChanged } from 'rxjs';
+import { CustomError } from '../../lib/interface';
 
 @Component({
   selector: 'app-login-page',
@@ -42,16 +43,23 @@ export class LoginPage implements OnInit {
   }
 
   loginHandler() {
-    console.log('redirectUrl', this.redirectUrl);
     if (!this.loginForm.valid) {
       return;
     }
 
     const loginData = this.loginForm.value;
 
-    // console.log(loginData.email);
-    this.authService.login(loginData.email);
-    this.router.navigateByUrl(this.redirectUrl);
+    this.authService.login(loginData.email, loginData.password).subscribe({
+      next: (value) => {
+        console.log(value);
+        localStorage.setItem('userData', JSON.stringify(value.data));
+        this.authService.setAuthSubject();
+        this.router.navigateByUrl(this.redirectUrl);
+      },
+      error: (error: CustomError) => {
+        console.log(error);
+      },
+    });
   }
 
   get controls() {

@@ -58,3 +58,21 @@ export interface IState {
   statusCode: number | null;
   success: string | null;
 }
+
+// {
+// 	"status": "success",
+// 	"statusCode": 201,
+// 	"success": true,
+// 	"message": "login successful",
+// 	"data": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiam9obmxhc0B5b3BtYWlsLmNvbSIsImlhdCI6MTc3NDEzNTAwNSwiZXhwIjoxNzc0MTM4NjA1fQ.-yJhk5Vtn9KlIjoenElsD4nLkUYfoaGxB13yyn4m_js",
+// 	"timestamp": "2026-03-21T23:16:45.831Z"
+// }
+
+export interface APIResponse<T> {
+  status: string;
+  statusCode: number;
+  success: boolean;
+  message: string;
+  data: T;
+  timestamp: string;
+}
