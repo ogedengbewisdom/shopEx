@@ -12,7 +12,7 @@
     </div>
     <div class="product-detail-content">
         <h1 class="product-detail-title">{{ state.product.name | titlecase }}</h1>
-        <p class="product-detail-category">Category: {{ category || state.product.category | titlecase}}</p>
+        <p class="product-detail-category">Category: {{ category || state.product.category?.name | titlecase}}</p>
         <p class="product-detail-description">{{ state.product.description}}</p>
         <p class="product-detail-price">Price: ${{ state.product.price }}</p>
         <p>{{ state.product.inStock ? 'In Stock' : 'Out of Stock' }}</p>

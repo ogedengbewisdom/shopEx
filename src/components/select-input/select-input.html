@@ -2,9 +2,12 @@
     <label [for]="name" class="select-label">{{label}}</label>
     <select [id]="name" class="select-input" [class.error]="hasError" [formControlName]="name">
         <option value="" disabled selected>Select {{label}}</option>
-        <option value="clothing">Clothing</option>
+        <!-- <option value="clothing">Clothing</option>
         <option value="electronics">Electronics</option>
-        <option value="jewellery">Jewellery</option>
+        <option value="jewellery">Jewellery</option> -->
+        @for (option of options; track option.id) {
+        <option [value]="option.id">{{option.name}}</option>
+        }
     </select>
     @if (hasError) {
     <p>{{errorMessage}}</p>

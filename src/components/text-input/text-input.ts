@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 // import { FormsModule } from "@angular/forms";
 
-type TInput = 'text' | 'number' | 'url' | 'password' | 'email'
+type TInput = 'text' | 'number' | 'url' | 'password' | 'email';
 
 @Component({
   selector: 'app-text-input',
@@ -11,11 +11,14 @@ type TInput = 'text' | 'number' | 'url' | 'password' | 'email'
   styleUrl: './text-input.css',
 })
 export class TextInput {
-  @Input() formGroup!: FormGroup
-  @Input() name:string = "";
-  @Input() placeholder: string = "";
-  @Input() label:string = ""
-  @Input() errorMessage?: string = ""
-  @Input() hasError?: boolean = false
-  @Input() inputType: TInput = 'text'
+  @Input() formGroup!: FormGroup;
+  @Input() name: string = '';
+  @Input() placeholder: string = '';
+  @Input() label: string = '';
+  @Input() errorMessage?: string = '';
+  @Input() hasError?: boolean = false;
+  @Input() inputType: TInput = 'text';
+  @Input() minValue?: number = undefined;
+  @Input() maxValue?: number = undefined;
+  @Input() stepValue?: number = undefined;
 }

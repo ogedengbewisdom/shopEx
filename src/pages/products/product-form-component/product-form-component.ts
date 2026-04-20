@@ -4,15 +4,13 @@ import { TextInput } from '../../../components/text-input/text-input';
 import { SelectInput } from '../../../components/select-input/select-input';
 import { RadioButton } from '../../../components/radio-button/radio-button';
 import { ButtonComponent } from '../../../components/button-component/button-component';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProductService } from '../../../services/product-service';
 import { Router } from '@angular/router';
 import { TextArea } from '../../../components/text-area/text-area';
 import { StateService } from '../../../services/state-service';
 import { CustomError, IProduct } from '../../../lib/interface';
-// import { PropertyInput } from '../../components/property-input/property-input';
+import { Categories } from '../../../services/categories';
 
 @Component({
   selector: 'app-product-form-component',
@@ -37,12 +35,17 @@ export class ProductFormComponent implements OnInit {
   private stateService = inject(StateService);
   state$ = this.stateService.state$;
   private cdr = inject(ChangeDetectorRef);
+  private categoryService = inject(Categories);
+  categories$ = this.categoryService.categories$;
 
   // constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.stateService.resetSuccessAndError();
     this.buildForm();
+    this.categoryService.getCategories().subscribe();
+
+    // console.log(this.categories$);
     // this.listenToChanges()
   }
 
@@ -52,7 +55,7 @@ export class ProductFormComponent implements OnInit {
     this.productForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
-      price: ['', [Validators.required, Validators.min(50)]],
+      price: ['', [Validators.required, Validators.min(50), Validators.max(10000000)]],
       category: ['', [Validators.required]],
       imageUrl: ['', [Validators.required, Validators.pattern(/^https?:\/\/.+/)]],
       inStock: [true],
@@ -172,13 +175,16 @@ export class ProductFormComponent implements OnInit {
     this.stateService.setSuccess(null, null);
     // const productData = this.productForm.value;
 
+    const { category, price, rating, ...rest } = this.productForm.value;
     const productData = {
-      ...this.productForm.value,
-      rating: Number(this.productForm.value.rating),
-      price: Number(this.productForm.value.price),
+      ...rest,
+      rating: Number(rating),
+      price: Number(price),
+      category_id: Number(category),
     };
 
-    console.log('productData', productData);
+    // console.log('productData', productData);
+
     this.productServices.createProduct(productData).subscribe({
       next: (value) => {
         this.stateService.setSuccess('Product created successfully!', 201);

@@ -8,7 +8,7 @@ export interface IProduct {
   name: string;
   description?: string;
   price: number;
-  category?: 'men' | 'women';
+  category?: ICategory;
   imageUrl: string;
   rating?: number;
   inStock?: boolean;
@@ -20,7 +20,7 @@ export interface ICreateProduct {
   name: string;
   description: string;
   price: number;
-  category: 'men' | 'women';
+  category: ICategory;
   imageUrl: string;
   rating: number;
   inStock: boolean;
@@ -75,4 +75,10 @@ export interface APIResponse<T> {
   message: string;
   data: T;
   timestamp: string;
+}
+
+export interface ICategory {
+  id: number;
+  name: string;
+  description: string;
 }

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ICategory } from '../../lib/interface';
 
 @Component({
   selector: 'app-select-input',
@@ -9,8 +10,9 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class SelectInput {
   @Input() formGroup!: FormGroup;
-  @Input() name: string = "";
-  @Input() label: string = "";
+  @Input() name: string = '';
+  @Input() label: string = '';
   @Input() hasError: boolean = false;
   @Input() errorMessage: string = '';
+  @Input() options: ICategory[] = [];
 }
