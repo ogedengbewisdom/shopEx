@@ -6,12 +6,13 @@
     <app-text-input placeholder="Price" name="price" inputType="number" label="Price" [formGroup]="productForm"
         [hasError]="hasError('price')" [errorMessage]="errorMessage('price')" />
     <app-select-input name="category" label="Category" [formGroup]="productForm" [hasError]="hasError('category')"
-        [errorMessage]="errorMessage('category')" />
+        [errorMessage]="errorMessage('category')" [options]="(categories$ | async) ?? []" />
     <app-text-input placeholder="https://" name="imageUrl" inputType="url" label="Image URL" [formGroup]="productForm"
         [hasError]="hasError('imageUrl')" [errorMessage]="errorMessage('imageUrl')" />
     <app-radio-button name="inStock" label="In Stock?" [formGroup]="productForm" />
     <app-text-input placeholder="Rating" name="rating" inputType="number" label="Rating" [formGroup]="productForm"
-        [hasError]="hasError('rating')" [errorMessage]="errorMessage('rating')" />
+        [hasError]="hasError('rating')" [errorMessage]="errorMessage('rating')" [minValue]="0" [maxValue]="5"
+        [stepValue]="0.1" />
     <app-button-component buttonText="Add property" (buttonClick)="addProperty()" />
     <div formArrayName="properties" class="form-array-wrapper">
         @for (property of propertiesArray.controls; track $index) {

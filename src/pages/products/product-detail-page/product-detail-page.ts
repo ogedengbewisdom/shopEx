@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../components/button-component/button-component';
 import { CustomError, IProduct } from '../../../lib/interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, catchError, combineLatest, of, switchMap, tap } from 'rxjs';
+import { catchError, combineLatest, of, switchMap, tap } from 'rxjs';
 import { StateService } from '../../../services/state-service';
 import { DisplayError } from '../../../components/display-error/display-error';
 import { Loader } from '../../../components/loader/loader';

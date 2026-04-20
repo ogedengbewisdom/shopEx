@@ -1,7 +1,7 @@
 <div class="input-wrapper" [formGroup]="formGroup">
     <label [for]="name">{{label}}</label>
     <input [type]="inputType" [id]="name" [placeholder]="placeholder" class="text-input" [class.error]="hasError"
-        [formControlName]="name">
+        [formControlName]="name" [min]="minValue" [max]="maxValue" [step]="stepValue">
     @if (hasError) {
     <p>{{errorMessage}}</p>
     }

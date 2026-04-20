@@ -53,7 +53,7 @@ export class ProductsPage implements OnInit {
 
   navigateToProduct = (product: IProduct) => {
     this.router.navigate(['/products', product.id], {
-      queryParams: { category: product.category || '' },
+      queryParams: { category: product.category?.name || '' },
     });
   };
 

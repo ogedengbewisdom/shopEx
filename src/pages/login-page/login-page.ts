@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TextInput } from '../../components/text-input/text-input';
 import { ButtonComponent } from '../../components/button-component/button-component';
@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { distinctUntilChanged } from 'rxjs';
 import { CustomError } from '../../lib/interface';
+import { StateService } from '../../services/state-service';
 
 @Component({
   selector: 'app-login-page',
@@ -16,17 +17,20 @@ import { CustomError } from '../../lib/interface';
   templateUrl: './login-page.html',
   styleUrl: './login-page.css',
 })
-export class LoginPage implements OnInit {
+export class LoginPage implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private destroyRef$ = inject(DestroyRef);
   loginForm!: FormGroup;
   private authService = inject(AuthService);
+  private stateService = inject(StateService);
+  state$ = this.stateService.state$;
 
   redirectUrl: string = '/products';
 
   ngOnInit(): void {
+    this.stateService.resetSuccessAndError();
     this.buildForm();
     this.route.queryParams
       .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef$))
@@ -56,7 +60,14 @@ export class LoginPage implements OnInit {
         this.router.navigateByUrl(this.redirectUrl);
       },
       error: (error: CustomError) => {
-        console.log(error);
+        this.stateService.setError(
+          error.message || 'Something went wrong',
+          error.statusCode || 500,
+        );
+
+        setTimeout(() => {
+          this.stateService.resetSuccessAndError();
+        }, 3000);
       },
     });
   }
@@ -97,5 +108,9 @@ export class LoginPage implements OnInit {
     }
 
     return 'Invalid field';
+  }
+
+  ngOnDestroy(): void {
+    this.stateService.resetSuccessAndError();
   }
 }

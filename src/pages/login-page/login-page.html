@@ -4,4 +4,12 @@
     <app-password-input placeholder="Enter password" name="password" inputType="password" label="Password"
         [formGroup]="loginForm" [hasError]="hasError('password')" [errorMessage]="errorMessage('password')" />
     <app-button-component buttonText="Login" (buttonClick)="loginHandler()" />
+    <!-- <p *ngIf="state$ | async as state"></p> -->
+
+    @if(state$ | async; as state) {
+    @if(state.error) {
+    <p class="alert-error">Error Code: {{ state.statusCode }}</p>
+    <p class="alert-error">{{ state.error }}</p>
+    }
+    }
 </form>
