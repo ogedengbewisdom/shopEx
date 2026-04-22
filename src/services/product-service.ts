@@ -3,12 +3,13 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { catchError, map, Observable } from 'rxjs';
 import { APIResponse, ICartItem, ICreateProduct, IProduct } from '../lib/interface';
 import { ErrorHandlerService } from './error-handler-service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private baseUrl = 'http://localhost:3000/api/v1';
+  private baseUrl = environment.apiUrl;
   private http = inject(HttpClient);
   private errorHandlerService = inject(ErrorHandlerService);
   cartItems = signal<ICartItem[]>([]);
