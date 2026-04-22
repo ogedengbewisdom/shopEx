@@ -4,7 +4,10 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ErrorHandlerService } from './error-handler-service';
 import { APIResponse } from '../lib/interface';
+// import * as dotenv from 'dotenv';
+import { environment } from '../environments/environment';
 
+// dotenv.config();
 interface ICurrentUser {
   id: number;
   email: string;
@@ -16,7 +19,9 @@ interface ICurrentUser {
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:3000/api/v1';
+  // private baseUrl = 'http://localhost:3000/api/v1';
+  private baseUrl = environment.apiUrl;
+
   private http = inject(HttpClient);
   private router = inject(Router);
   private authenticationSubject = new BehaviorSubject<boolean>(!!this.getCurrentUser()?.email);
@@ -32,6 +37,7 @@ export class AuthService {
     // localStorage.setItem('email', email);
     // this.authenticationSubject.next(true);
     // this.router.navigate(['/products']);
+    console.log(this.baseUrl);
     return this.http.post<APIResponse<T>>(`${this.baseUrl}/auth/login`, { email, password });
   }
 
