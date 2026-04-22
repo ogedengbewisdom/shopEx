@@ -3,11 +3,12 @@ import { SearchInputComponent } from '../search-input-component/search-input-com
 import { CartComponent } from '../cart/cart';
 import { ICartItem, IProduct } from '../../lib/interface';
 import { ButtonComponent } from '../button-component/button-component';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { ProductService } from '../../services/product-service';
 import { CommonModule, Location } from '@angular/common';
 import { StateService } from '../../services/state-service';
 import { AuthService } from '../../services/auth-service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-navbar-component',
@@ -34,11 +35,25 @@ export class NavbarComponent implements OnInit {
   isAuthenticated$ = this.authService.isAuthenticated$;
   searchValue = signal<string>('');
 
+  // ngOnInit(): void {
+  //   this.route.queryParams.subscribe((params) => {
+  //     if (params['name']) {
+  //       this.searchValue.set(params['name']);
+  //     }
+  //   });
+  // }
+
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      if (params['name']) {
-        this.searchValue.set(params['name']);
-      }
+    // Read query params on initial load
+    const currentParams = this.route.snapshot.queryParams;
+    if (currentParams['name']) {
+      this.searchValue.set(currentParams['name']);
+    }
+
+    // Keep in sync on navigation
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      const params = this.route.snapshot.queryParams;
+      this.searchValue.set(params['name'] || '');
     });
   }
 
